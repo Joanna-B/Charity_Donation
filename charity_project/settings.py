@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'charity_app'
+    'charity_app',
+    'phone_field',
 ]
 
 MIDDLEWARE = [
