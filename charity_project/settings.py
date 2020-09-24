@@ -134,3 +134,5 @@ try:
     from .local_settings import DATABASES, SECRET_KEY
 except ModuleNotFoundError:
     pass
+
+AUTH_USER_MODEL = 'charity_app.CustomUser'

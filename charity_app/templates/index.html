@@ -2,22 +2,17 @@
 {% load static %}
 
 
-{% block header %}
-
-    <header class="header--main-page">
+        {% block nav_actions %}
+   <header class="header--main-page">
       <nav class="container container--70">
         <ul class="nav--actions">
-          <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
-          <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+          <li><a href="../login/#login-page" class="btn btn--small btn--without-border">Zaloguj</a></li>
+          <li><a href="../register/#login-page" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>
+        {% endblock %}
 
-{% endblock %}
 
-
-{% block content %}
-
-      </nav>
-
+      {% block main_page %}
       <div class="slogan container container--90">
         <div class="slogan--item">
           <h1>
@@ -26,18 +21,20 @@
           </h1>
         </div>
       </div>
-    </header>
+      {% endblock %}
+
+{% block content %}
 
     <section id="stats" class="stats">
       <div class="container container--85">
         <div class="stats--item">
-          <em>10</em>
+          <em> {{donation_number}}</em>
           <h3>Oddanych worków</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius est beatae, quod accusamus illum tempora!</p>
         </div>
 
         <div class="stats--item">
-          <em>5</em>
+          <em> {{ institution_qty }}</em>
           <h3>Wspartych organizacji</h3>
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam magnam, sint nihil cupiditate quas quam.</p>
         </div>
@@ -71,7 +68,7 @@
         </div>
       </div>
 
-      <a href="#" class="btn btn--large">Załóż konto</a>
+      <a href="../register/#login-page" class="btn btn--large">Załóż konto</a>
     </section>
 
     <section id="about-us" class="about-us">
@@ -97,33 +94,23 @@
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
 
         <ul class="help--slides-items">
+          {% for institution in institution_foundation %}
           <li>
             <div class="col">
-              <div class="title">Fundacja "Dbam o Zdrowie"</div>
-              <div class="subtitle">Cel i misja: Pomoc dzieciom z ubogich rodzin.</div>
+              <div class="title"> {{ institution.name }} </div>
+              <div class="subtitle">Cel i misja: {{ institution.description }} </div>
             </div>
 
-            <div class="col"><div class="text">ubrania, jedzenie, sprzęt AGD, meble, zabawki</div></div>
-          </li>
-
-          <li>
             <div class="col">
-              <div class="title">Fundacja “Dla dzieci"</div>
-              <div class="subtitle">Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji życiowej.</div>
+              <div class="text">
+              {% for i in institution.categories.all %}
+              {{ i }},
+              {% endfor %}
+              </div>
             </div>
-
-            <div class="col"><div class="text">ubrania, meble, zabawki</div></div>
           </li>
+          {% endfor %}
 
-          <li>
-            <div class="col">
-              <div class="title">Fundacja “Bez domu”</div>
-              <div class="subtitle">Cel i misja: Pomoc dla osób nie posiadających miejsca zamieszkania</div>
-            </div>
-
-            <div class="col"><div class="text">ubrania, jedzenie, ciepłe koce</div></div>
-          </li>
-        </ul>
         <!-- Pagination
         <ul class="help--slides-pagination">
           <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
@@ -137,45 +124,26 @@
       <!-- SLIDE 2 -->
       <div class="help--slides" data-id="2">
         <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic officiis mollitia dolor, neque aspernatur accusamus debitis. Ducimus, officia. Quia, sunt illum! Non iste placeat ab ipsum alias
-          quos suscipit corporis!
+          W naszej bazie znajdziesz listę zweryfikowanych organizacji pozarządowych, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.
         </p>
         <ul class="help--slides-items">
+          {% for institution in institution_ngo %}
           <li>
             <div class="col">
-              <div class="title">Organizacja 1</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="title">{{ institution.name }}</div>
+              <div class="subtitle">{{ institution.description }}</div>
             </div>
 
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
-
-          <li>
             <div class="col">
-              <div class="title">Organizacja 2</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="text">
+              {% for i in institution.categories.all %}
+              {{ i }},
+              {% endfor %}
+              </div>
             </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
           </li>
+          {% endfor %}
 
-          <li>
-            <div class="col">
-              <div class="title">Organizacja 3</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
-
-          <li>
-            <div class="col">
-              <div class="title">Organizacja 4</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
         </ul>
 
         <!-- Pagination
@@ -191,25 +159,25 @@
 
       <!-- SLIDE 3 -->
       <div class="help--slides" data-id="3">
-        <p>Lorem ipsum dolor sit amet, his ocurreret persequeris ea, ad utinam laudem duo. Verterem adipisci partiendo eos ne, ea his reque quaeque recteque, ne quo lobortis intellegam.</p>
+        <p>W naszej bazie znajdziesz listę zweryfikowanych zbiórek lokalnych, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
         <ul class="help--slides-items">
+          {% for institution in institution_local %}
           <li>
             <div class="col">
-              <div class="title">Lokalna zbiórka 1</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="title">{{ institution.name }}</div>
+              <div class="subtitle">{{ institution.description }}</div>
             </div>
 
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
-
-          <li>
             <div class="col">
-              <div class="title">Lokalna zbiórka 2</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="text">
+              {% for i in institution.categories.all %}
+              {{ i }},
+              {% endfor %}
+              </div>
             </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
           </li>
+          {% endfor %}
+
         </ul>
 
         <!-- Pagination

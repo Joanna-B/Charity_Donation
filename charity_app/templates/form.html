@@ -2,7 +2,7 @@
 {% load static %}
 
 
-  {% block header %}
+  {% block nav_actions %}
     <header class="header--form-page">
       <nav class="container container--70">
         <ul class="nav--actions">
@@ -18,9 +18,7 @@
  {% endblock %}
 
 
- {% block content %}
-      </nav>
-
+{% block slogan %}
       <div class="slogan container container--90">
         <div class="slogan--item">
           <h1>
@@ -47,8 +45,10 @@
           </div>
         </div>
       </div>
-    </header>
+{% endblock %}
 
+
+{% block content %}
     <section class="form--steps">
       <div class="form--steps-instructions">
         <div class="form--steps-container">
