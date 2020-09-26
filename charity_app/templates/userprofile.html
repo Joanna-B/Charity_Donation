@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block nav_actions %}
+      {%if user.is_authenticated %}
+        <header class="header">
+         <nav class="container container--70">
+           <ul class="nav--actions">
+             <li class="logged-user">
+              Witaj {{ user.name }}
+                <ul class="dropdown">
+                  <li><a href="#">Ustawienia</a></li>
+                   {%if user.is_superuser %}
+                  <li><a href="../admin/">Panel administracyjny</a></li>
+                    {% endif %}
+                  <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+                </ul>
+              </li>
+            </ul>
+      {% else %}
+        <header>
+          <nav class="container container--70">
+            <ul class="nav--actions">
+              <li><a href="{% url 'login' %}">Zaloguj</a></li>
+              <li class="highlighted"><a href="{% url 'register' %}">Załóż konto</a></li>
+            </ul>
+      {% endif %}
+    {% endblock %}
+
+{% block content %}
+
+  {%if user.is_authenticated %}
+     <section class="login-page" style="font-size: large">
+      <h2>Profil</h2>
+          <p>
+           <label style="font-weight: bold">Imię:</label>
+           <a> {{user.name}} </a>
+          </p>
+          <p>
+           <label style="font-weight: bold">Nazwisko:</label>
+           <a> {{user.surname}} </a>
+          </p>
+          <p>
+           <label style="font-weight: bold">Email:</label>
+           <a> {{user.email}} </a>
+          </p>
+    </section>
+
+    {% if donations %}
+    <section class="login-page">
+      <h2>Przekazane dary:</h2>
+        <table style="font-size: large">
+            <thead>
+            <tr style="font-weight: bold; padding:10px">
+                <th scope="col" class="col-3"  style="padding: 10px">Instytucja</th>
+                <th scope="col" class="col-3"  style="padding: 10px">Kategorie</th>
+                <th scope="col" class="col-1"  style="padding: 10px">Liczba worków</th>
+                <th scope="col" class="col-2"  style="padding: 10px">Data odbioru</th>
+            </tr>
+            </thead>
+            {% for donation in donations %}
+                <tr class="d-flex">
+                    <td class="col-3"  style="padding: 10px">{{ donation.institution }}</td>
+                    <td class="col-3"  style="padding: 10px">
+                        {% for donation in donation.categories.all %}
+                            {{ donation }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td class="col-1 center"  style="padding: 10px">
+                        {{ donation.quantity }}
+                    </td>
+                    <td class="col-2"  style="padding: 10px">
+                        {{ donation.pick_up_date }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+        {% else %}
+              <section class="login-page">
+                <h2>Zacznij pomagać!</h2>
+              </section>
+        {% endif %}
+
+  {% endif %}
+
+{% endblock%}

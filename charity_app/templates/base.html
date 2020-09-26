@@ -15,7 +15,32 @@
 <!-- //--------------------------- page content -------------------------// -->
   <body>
   {% block header %}
-    {% block nav_actions %}{% endblock %}
+    {% block nav_actions %}
+      {%if user.is_authenticated %}
+        <header class="header--form-page">
+         <nav class="container container--70">
+           <ul class="nav--actions">
+             <li class="logged-user">
+              Witaj {{ user.name }}
+                <ul class="dropdown">
+                  <li><a href="#">Profil</a></li>
+                  <li><a href="#">Ustawienia</a></li>
+                   {%if user.is_superuser %}
+                  <li><a href="../admin/">Panel administracyjny</a></li>
+                    {% endif %}
+                  <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+                </ul>
+              </li>
+            </ul>
+      {% else %}
+        <header>
+          <nav class="container container--70">
+            <ul class="nav--actions">
+              <li><a href="{% url 'login' %}">Zaloguj</a></li>
+              <li class="highlighted"><a href="{% url 'register' %}">Załóż konto</a></li>
+            </ul>
+      {% endif %}
+    {% endblock %}
 
     {% block menu %}
         <ul>

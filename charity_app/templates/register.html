@@ -2,16 +2,6 @@
 {% load static %}
 
 
-{% block nav_actions %}
-    <header>
-      <nav class="container container--70">
-        <ul class="nav--actions">
-          <li><a href="../login/#login-page">Zaloguj</a></li>
-          <li class="highlighted"><a href="../register/#login-page">Załóż konto</a></li>
-        </ul>
-{% endblock %}
-
-
 {% block content %}
 
     <section class="login-page">
@@ -49,7 +39,7 @@
   {% endif %}
 
         <div class="form-group form-group--buttons">
-          <a href="/login#login-page" class="btn btn--without-border">Zaloguj się</a>
+          <a href="{% url 'login' %}" class="btn btn--without-border">Zaloguj się</a>
           <button class="btn" type="submit">Załóż konto</button>
         </div>
       </form>

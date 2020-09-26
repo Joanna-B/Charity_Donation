@@ -4,29 +4,29 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class MyAccountManager(BaseUserManager):
-	def create_user(self, email, password=None):
-		if not email:
-			raise ValueError('Users must have an email address')
+    def create_user(self, email, password=None):
+        if not email:
+            raise ValueError('Users must have an email address')
 
-		user = self.model(
-			email=self.normalize_email(email),
-		)
+        user = self.model(
+            email=self.normalize_email(email),
+        )
 
-		user.set_password(password)
-		user.save(using=self._db)
-		return user
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-	def create_superuser(self, email, password):
-		user = self.create_user(
-			email=self.normalize_email(email),
-			password=password,
-		)
+    def create_superuser(self, email, password):
+        user = self.create_user(
+            email=self.normalize_email(email),
+            password=password,
+            )
 
-		user.is_admin = True
-		user.is_staff = True
-		user.is_superuser = True
-		user.save(using=self._db)
-		return user
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
 
 
 class CustomUser(AbstractBaseUser):
@@ -45,6 +45,10 @@ class CustomUser(AbstractBaseUser):
 
     objects = MyAccountManager()
 
+    class Meta:
+        verbose_name = 'Użytkownik'
+        verbose_name_plural = 'Użytkownicy'
+
     def __str__(self):
         return self.email
 
@@ -58,6 +62,10 @@ class CustomUser(AbstractBaseUser):
 class Category(models.Model):
     name = models.CharField(max_length=128)
 
+    class Meta:
+        verbose_name = 'Kategoria'
+        verbose_name_plural = 'Kategorie'
+
     def __str__(self):
         return self.name
 
@@ -70,10 +78,14 @@ INSTITUTION_TYPE = (
 
 
 class Institution(models.Model):
-    name = models.CharField(max_length=256)
-    description = models.TextField()
-    type = models.IntegerField(choices=INSTITUTION_TYPE, default=1)
-    categories = models.ManyToManyField(Category)
+    name = models.CharField(verbose_name="Nazwa", max_length=256)
+    description = models.TextField(verbose_name="Opis")
+    type = models.IntegerField(verbose_name="Typ", choices=INSTITUTION_TYPE, default=1)
+    categories = models.ManyToManyField(Category, verbose_name="Kategorie")
+
+    class Meta:
+        verbose_name = 'Instytucja'
+        verbose_name_plural = 'Instytucje'
 
     def __str__(self):
         return self.name
@@ -92,7 +104,11 @@ class Donation(models.Model):
     pick_up_comment = models.CharField(max_length=256)
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
 
+    class Meta:
+        verbose_name = 'Dar'
+        verbose_name_plural = 'Dary'
 
-
+    def __str__(self):
+        return f"ID: {self.pk}. Liczba worków: {self.quantity}. Dla {self.institution}"
 
 

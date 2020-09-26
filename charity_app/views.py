@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth import login, authenticate
-from .models import Donation, Institution
+from django.contrib.auth import login, authenticate, logout
+from .models import Donation, Institution, Category, CustomUser
 from .forms import RegistrationForm, CustomUserAuthenticationForm
+from django.views.generic.edit import CreateView
+from django.contrib.auth.decorators import login_required
 
 
 class LandingPage(View):
@@ -28,7 +30,16 @@ class LandingPage(View):
 
 class AddDonation(View):
     def get(self, request):
-        return render(request, "form.html")
+        categories = Category.objects.all()
+        institutions = Institution.objects.all()
+        ctx = {
+            'categories': categories,
+            'institutions': institutions,
+        }
+        if request.user.is_authenticated:
+            return render(request, "form.html", ctx)
+        else:
+            return render(request, "login.html")
 
 
 def signup_view(request):
@@ -44,7 +55,7 @@ def signup_view(request):
             return redirect('login')
         else:
             context['registration_form'] = form
-
+            return render(request, 'register.html', context)
     else:
         form = RegistrationForm()
         context['registration_form'] = form
@@ -61,6 +72,8 @@ def login_view(request):
 
     if request.POST:
         form = CustomUserAuthenticationForm(request.POST)
+        email = request.POST['email']
+
         if form.is_valid():
             email = request.POST['email']
             password = request.POST['password']
@@ -69,11 +82,31 @@ def login_view(request):
             if user:
                 login(request, user)
                 return redirect("landing-page")
-
-            if user is None:
+        else:
+            if CustomUser.objects.filter(email=email).exists() is False:
                 return redirect("register")
+
     else:
         form = CustomUserAuthenticationForm()
 
     context['login_form'] = form
     return render(request, "login.html", context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('landing-page')
+
+
+class UserProfile(View):
+    def get(self, request):
+        user = request.user
+        if user.is_authenticated:
+            donations = Donation.objects.filter(user=user)
+            ctx = {
+                'donations': donations,
+            }
+            return render(request, "userprofile.html", ctx)
+        else:
+            return redirect('login')
+
+

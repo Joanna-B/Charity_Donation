@@ -2,21 +2,11 @@
 {% load static %}
 
 
-{% block nav_actions %}
-    <header>
-      <nav class="container container--70">
-        <ul class="nav--actions">
-          <li><a href="../login/#login-page">Zaloguj</a></li>
-          <li class="highlighted"><a href="../register/#login-page">Załóż konto</a></li>
-        </ul>
-{% endblock %}
-
-
 {% block content %}
 
     <section class="login-page">
       <h2>Zaloguj się</h2>
-      <form method="POST">
+      <form method="POST" action="{% url "login" %}">
          {% csrf_token %}
         <div class="form-group">
           <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
@@ -42,7 +32,7 @@
 
 
         <div class="form-group form-group--buttons">
-          <a href="../register/#login-page" class="btn btn--without-border">Załóż konto</a>
+          <a href="{% url 'register' %}" class="btn btn--without-border">Załóż konto</a>
           <button class="btn" type="submit">Zaloguj się</button> 
         </div>
       </form>
