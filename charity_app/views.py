@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
 from .models import Donation, Institution, Category, CustomUser
-from .forms import RegistrationForm, CustomUserAuthenticationForm
+from .forms import RegistrationForm, CustomUserAuthenticationForm, AddDonationForm
 from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 
@@ -29,6 +29,7 @@ class LandingPage(View):
 
 
 class AddDonation(View):
+    form = AddDonationForm()
     def get(self, request):
         categories = Category.objects.all()
         institutions = Institution.objects.all()
@@ -40,6 +41,9 @@ class AddDonation(View):
             return render(request, "form.html", ctx)
         else:
             return render(request, "login.html")
+
+    def post(self, request):
+        pass
 
 
 def signup_view(request):

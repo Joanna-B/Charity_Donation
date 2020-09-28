@@ -90,6 +90,10 @@ class Institution(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def category_ids_string(self):
+        return ",".join([str(id) for id in self.categories.all().values_list('id', flat=True)])
+
 
 class Donation(models.Model):
     quantity = models.PositiveIntegerField()

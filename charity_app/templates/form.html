@@ -90,7 +90,7 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <input type="number" name="bags" step="1" min="1" />
+                <input type="number" name="bags" min="1" id="inputQuantity">
               </label>
             </div>
 
@@ -102,14 +102,14 @@
 
 
 
-          <!-- STEP 4 -->
+          <!-- STEP 3 -->
           <div data-step="3">
             <h3>Wybierz organizację, której chcesz pomóc:</h3>
 
             {% for institution in institutions %}
-            <div class="form-group form-group--checkbox" style="display: none">
+            <div class="form-group form-group--checkbox institutions-div">
               <label>
-                <input type="radio" name="organization" value="old" />
+                <input type="radio" name="organization" value="{{institution.id}}" data-categories="{{institution.category_ids_string}}" />
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title"> {{institution.name}} </div>
@@ -121,28 +121,6 @@
             </div>
             {% endfor %}
 
-
-            <!--
-            <script>
-
-
-
-            </script>
-             -->
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="radio" name="organization" value="old" />
-                <span class="checkbox radio"></span>
-                <span class="description">
-                  <div class="title">Fundacja “Dla dzieci"</div>
-                  <div class="subtitle">
-                    Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji
-                    życiowej.
-                  </div>
-                </span>
-              </label>
-            </div>
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
@@ -158,22 +136,22 @@
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Ulica <input type="text" name="address" /> </label>
+                  <label> Ulica <input type="text" name="address" id="inputAddress" required> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Miasto <input type="text" name="city" /> </label>
+                  <label> Miasto <input type="text" name="city"id="inputCity" required> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Kod pocztowy <input type="text" name="postcode" />
+                    Kod pocztowy <input type="text" name="postcode" id="inputZip_code" required>
                   </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Numer telefonu <input type="phone" name="phone" />
+                    Numer telefonu <input type="phone" name="phone" id="inputPhone_number" required>
                   </label>
                 </div>
               </div>
@@ -181,17 +159,17 @@
               <div class="form-section--column">
                 <h4>Termin odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Data <input type="date" name="data" /> </label>
+                  <label> Data <input type="date" name="data" id="inputPick_up_date" required> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Godzina <input type="time" name="time" /> </label>
+                  <label> Godzina <input type="time" name="time" id="inputPick_up_time" required> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
                     Uwagi dla kuriera
-                    <textarea name="more_info" rows="5"></textarea>
+                    <textarea name="more_info" rows="5" id="inputMore_info"></textarea>
                   </label>
                 </div>
               </div>

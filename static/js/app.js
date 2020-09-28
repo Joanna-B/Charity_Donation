@@ -196,8 +196,62 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$next.forEach(btn => {
         btn.addEventListener("click", e => {
           e.preventDefault();
-          this.currentStep++;
-          this.updateForm();
+          if (this.currentStep === 1) {
+            let categories = document.getElementsByName("categories");
+            var checkedCategories = [];
+            for (let i = 0; i < categories.length; i++)
+              if (categories[i].checked) {
+                checkedCategories.push(categories[i].value)
+              }
+            if (checkedCategories.length > 0) {
+              this.currentStep++;
+              this.updateForm();
+            } else {
+
+            }
+          }
+          if (this.currentStep === 2) {
+            let no_bags = document.getElementById("inputQuantity");
+            if (no_bags.value.length == 0) {
+            }
+            else {
+            this.currentStep++;
+            this.updateForm();
+            }
+          }
+
+          if (this.currentStep === 3) {
+            let categories = document.getElementsByName("categories");
+            let checkedCategories = [];
+            for (let i = 0; i < categories.length; i++) {
+              if (categories[i].checked) {
+                checkedCategories.push(categories[i].value)
+              }
+            }
+            let institutions = document.getElementsByName("organization");
+
+            for (let i = 0; i < institutions.length; i++) {
+              let institutionsCategories = institutions[i].dataset.categories
+              let institutionCategories = institutionsCategories.split(",")
+
+              console.log(checkedCategories)
+              console.log(institutionCategories)
+
+
+              let checker = (arr, target) => target.every(v => arr.includes(v));
+
+              console.log(checker)
+
+
+              if (checker(institutionCategories, checkedCategories)) {
+
+              }
+              else {
+                    institutions[i].parentElement.parentElement.style.display = "none";
+                }
+              }
+
+            }
         });
       });
 
@@ -218,6 +272,7 @@ document.addEventListener("DOMContentLoaded", function() {
      * Update form front-end
      * Show next or previous section etc.
      */
+
     updateForm() {
       this.$step.innerText = this.currentStep;
 
@@ -253,3 +308,8 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 });
+
+
+
+
+

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser
+from .models import CustomUser, Donation
 from django.contrib.auth import authenticate
 
 class RegistrationForm(UserCreationForm):
@@ -26,8 +26,7 @@ class CustomUserAuthenticationForm(forms.ModelForm):
                 raise forms.ValidationError("Invalid login")
 
 
-
-
-
-
-
+class AddDonationForm(forms.ModelForm):
+    class Meta:
+        model = Donation
+        fields = '__all__'
