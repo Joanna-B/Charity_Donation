@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
 from .models import Donation, Institution, Category, CustomUser
@@ -42,8 +42,29 @@ class AddDonation(View):
         else:
             return render(request, "login.html")
 
-    def post(self, request):
-        pass
+    # def post(self, request):
+    #     form = AddDonationForm(request.POST)
+    #     ctx = {"form": form}
+    #     if form.is_valid():
+    #         quantity = request.POST.get('bags')
+    #         address = request.POST.get('address')
+    #         phone_number = request.POST.get('phone')
+    #         city = request.POST.get('city')
+    #         zip_code = request.POST.get('postcode')
+    #         pick_up_date = request.POST.get('date')
+    #         pick_up_time = request.POST.get('time')
+    #         pick_up_comment = request.POST.get('more_info')
+    #         categories = request.POST.getlist('categories')
+    #         institution = request.POST.get('organization')
+    #         user = get_object_or_404(CustomUser, id=request.user.id)
+    #
+    #         new_donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number,
+    #                                                city=city, zip_code=zip_code, pick_up_date=pick_up_date,
+    #                                                pick_up_time=pick_up_time, pick_up_comment=pick_up_comment,
+    #                                                categories=categories, institution=institution, user=user)
+    #         new_donation.save()
+    #
+    #     return render(request, "form-confirmation.html", ctx)
 
 
 def signup_view(request):
@@ -114,3 +135,6 @@ class UserProfile(View):
             return redirect('login')
 
 
+class DonationFormConfirmation(View):
+    def get(self, request):
+        return render(request, 'form-confirmation.html')

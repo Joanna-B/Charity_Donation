@@ -211,8 +211,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
           }
           if (this.currentStep === 2) {
-            let no_bags = document.getElementById("inputQuantity");
-            if (no_bags.value.length == 0) {
+            let bags_number = document.getElementById("inputQuantity");
+            if (bags_number.value.length == 0) {
             }
             else {
             this.currentStep++;
@@ -234,24 +234,62 @@ document.addEventListener("DOMContentLoaded", function() {
               let institutionsCategories = institutions[i].dataset.categories
               let institutionCategories = institutionsCategories.split(",")
 
-              console.log(checkedCategories)
-              console.log(institutionCategories)
-
-
               let checker = (arr, target) => target.every(v => arr.includes(v));
-
-              console.log(checker)
-
 
               if (checker(institutionCategories, checkedCategories)) {
 
+              } else {
+                institutions[i].parentElement.parentElement.style.display = "none";
               }
-              else {
-                    institutions[i].parentElement.parentElement.style.display = "none";
-                }
+            }
+            let chx = document.getElementsByTagName('input');
+            for (var i = 0; i < chx.length; i++) {
+              if (chx[i].type == 'radio' && chx[i].checked) {
+                this.currentStep++;
+                this.updateForm();
+              } else {
               }
+            }
+          }
+          if (this.currentStep === 4) {
+            let address = document.getElementById("inputAddress").value;
+            let city = document.getElementById("inputCity").value;
+            let zipCode = document.getElementById("inputZip_code").value;
+            let phoneNumber = document.getElementById("inputPhone_number").value;
+            let pickUpDate = document.getElementById("inputPick_up_date").value;
+            let pickUpTime = document.getElementById("inputPick_up_time").value;
+            let moreInfo = document.getElementById("inputMore_info").value;
+            if ((address.length == 0) || (city.length == 0) || (zipCode.length == 0) || (phoneNumber.length == 0) ||
+                (pickUpDate.length == 0) || (pickUpTime.length == 0) || (moreInfo.length == 0) ) {
 
             }
+            else {
+               this.currentStep++;
+               this.updateForm();
+               let bags_number = document.getElementById("inputQuantity").value;
+               let summaryBagsNumber = document.getElementById("bags_number");
+               summaryBagsNumber.textContent = bags_number;
+               //let organization = document.getElementsByName("organization").value;
+               //console.log(organization)
+               let summaryOrganization = document.getElementById("organization");
+               //summaryOrganization.textContent = organization;
+               let summaryAddress = document.getElementById("address");
+               summaryAddress.textContent = address;
+               let summaryCity = document.getElementById("city");
+               summaryCity.textContent = city;
+               let summaryZipCode = document.getElementById("zip_code");
+               summaryZipCode.textContent = zipCode;
+               let summaryPhoneNumber = document.getElementById("phone_number");
+               summaryPhoneNumber.textContent = phoneNumber;
+               let summaryPickUpDate = document.getElementById("pick_up_date");
+               summaryPickUpDate.textContent = pickUpDate;
+               let summaryPickUpTime = document.getElementById("pick_up_time");
+               summaryPickUpTime.textContent = pickUpTime;
+               let summaryMoreInfo = document.getElementById("more_info");
+               summaryMoreInfo.textContent = moreInfo;
+            }
+          }
+
         });
       });
 
