@@ -9,8 +9,8 @@
              <li class="logged-user">
               Witaj {{ user.name }}
                 <ul class="dropdown">
-                  <li><a href="../profile/">Profil</a></li>
-                  <li><a href="#">Ustawienia</a></li>
+                  <li><a href="{% url 'user-profile' %}">Profil</a></li>
+                  <li><a href="{% url 'update-user-profile' %}">Ustawienia</a></li>
                     {%if user.is_superuser %}
                   <li><a href="../admin/">Panel administracyjny</a></li>
                     {% endif %}
@@ -110,7 +110,7 @@
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
 
         <ul class="help--slides-items">
-          {% for institution in institution_foundation %}
+          {% for institution in foundations %}
           <li>
             <div class="col">
               <div class="title"> {{ institution.name }} </div>
@@ -127,13 +127,32 @@
           </li>
           {% endfor %}
 
-        <!-- Pagination
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
+
+          {% if foundations.has_other_pages %}
+              <ul class="pagination">
+            {% if foundations.has_previous %}
+             <li><a href="?page={{ foundations.previous_page_number }}#help" class="btn btn--small btn--without-border">&laquo;</a></li>
+                {% else %}
+            <li class="disabled"><span></span></li>
+            {% endif %}
+            {% for i in foundations.paginator.page_range %}
+              {% if foundations.number == i %}
+              <li class="active"><span class="btn btn--small btn--without-border">{{ i }} </span></li>
+              {% else %}
+              <li><a href="?page={{ i }}#help" class="btn btn--small btn--without-border">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if foundations.has_next %}
+            <li><a href="?page={{ foundations.next_page_number }}#help" class="btn btn--small btn--without-border">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><span></span></li>
+            {% endif %}
+            </ul>
+          {% endif %}
+
         </ul>
-        -->
+
       </div>
 
 
@@ -143,7 +162,7 @@
           W naszej bazie znajdziesz listę zweryfikowanych organizacji pozarządowych, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.
         </p>
         <ul class="help--slides-items">
-          {% for institution in institution_ngo %}
+          {% for institution in ngos %}
           <li>
             <div class="col">
               <div class="title">{{ institution.name }}</div>
@@ -162,22 +181,38 @@
 
         </ul>
 
-        <!-- Pagination
+
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="4">4</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="5">5</a></li>
+          {% if ngos.has_other_pages %}
+              <ul class="pagination">
+            {% if ngos.has_previous %}
+             <li><a href="?page={{ ngos.previous_page_number }}#help" class="btn btn--small btn--without-border">&laquo;</a></li>
+                {% else %}
+            <li class="disabled"><span></span></li>
+            {% endif %}
+            {% for i in ngos.paginator.page_range %}
+              {% if ngos.number == i %}
+              <li class="active"><span class="btn btn--small btn--without-border">{{ i }} </span></li>
+              {% else %}
+              <li><a href="?page={{ i }}#help" class="btn btn--small btn--without-border">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if ngos.has_next %}
+            <li><a href="?page={{ foundations.next_page_number }}#help" class="btn btn--small btn--without-border">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><span></span></li>
+            {% endif %}
+            </ul>
+          {% endif %}
         </ul>
-        -->
+
       </div>
 
       <!-- SLIDE 3 -->
-      <div class="help--slides" data-id="3">
+      <div id="locals" class="help--slides" data-id="3">
         <p>W naszej bazie znajdziesz listę zweryfikowanych zbiórek lokalnych, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
         <ul class="help--slides-items">
-          {% for institution in institution_local %}
+          {% for institution in locals %}
           <li>
             <div class="col">
               <div class="title">{{ institution.name }}</div>
@@ -196,12 +231,31 @@
 
         </ul>
 
-        <!-- Pagination
+
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
+          {% if locals.has_other_pages %}
+              <ul class="pagination">
+            {% if locals.has_previous %}
+             <li><a href="?page={{ locals.previous_page_number }}#help" class="btn btn--small btn--without-border">&laquo;</a></li>
+                {% else %}
+            <li class="disabled"><span></span></li>
+            {% endif %}
+            {% for i in locals.paginator.page_range %}
+              {% if locals.number == i %}
+              <li class="active"><span class="btn btn--small btn--without-border">{{ i }} </span></li>
+              {% else %}
+              <li><a href="?page={{ i }}#help" class="btn btn--small btn--without-border">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if locals.has_next %}
+            <li><a href="?page={{ locals.next_page_number }}#help" class="btn btn--small btn--without-border">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><span></span></li>
+            {% endif %}
+            </ul>
+          {% endif %}
         </ul>
-        -->
+
       </div>
     </section>
 

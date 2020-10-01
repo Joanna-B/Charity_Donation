@@ -29,4 +29,10 @@ class CustomUserAuthenticationForm(forms.ModelForm):
 class AddDonationForm(forms.ModelForm):
     class Meta:
         model = Donation
-        fields = '__all__'
+        exclude = ('user', 'is_taken')
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'name', 'surname']

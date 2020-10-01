@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
 from .models import Donation, Institution, Category, CustomUser
-from .forms import RegistrationForm, CustomUserAuthenticationForm, AddDonationForm
-from django.views.generic.edit import CreateView
-from django.contrib.auth.decorators import login_required
+from .forms import RegistrationForm, CustomUserAuthenticationForm, AddDonationForm, UserProfileForm
+from django.views.generic import TemplateView, UpdateView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.urls import reverse_lazy
+
 
 
 class LandingPage(View):
@@ -15,21 +17,52 @@ class LandingPage(View):
         for d in donations:
             institution_list.append(d.institution)
         institution_qty = len(set(institution_list))
-        institution_foundation = Institution.objects.filter(type=1)
-        institution_ngo = Institution.objects.filter(type=2)
-        institution_local = Institution.objects.filter(type=3)
+        foundation_list = Institution.objects.filter(type=1)
+        ngo_list = Institution.objects.filter(type=2)
+        local_list = Institution.objects.filter(type=3)
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(foundation_list, 2)
+        try:
+            foundations = paginator.page(page)
+        except PageNotAnInteger:
+            foundations = paginator.page(1)
+        except EmptyPage:
+            foundations = paginator.page(paginator.num_pages)
+
+        paginator = Paginator(ngo_list, 2)
+        try:
+            ngos = paginator.page(page)
+        except PageNotAnInteger:
+            ngos = paginator.page(1)
+        except EmptyPage:
+            ngos = paginator.page(paginator.num_pages)
+
+        paginator = Paginator(local_list, 2)
+        try:
+            locals = paginator.page(page)
+        except PageNotAnInteger:
+            locals = paginator.page(1)
+        except EmptyPage:
+            locals = paginator.page(paginator.num_pages)
+
         ctx = {
             'donation_number': donation_number,
             'institution_qty': institution_qty,
-            'institution_foundation': institution_foundation,
-            'institution_ngo': institution_ngo,
-            'institution_local': institution_local,
-            }
+            'foundation_list': foundation_list,
+            'ngo_list': ngo_list,
+            'institution_local': local_list,
+            'foundations': foundations,
+            'ngos': ngos,
+            'locals': locals,
+        }
         return render(request, 'index.html', ctx)
+
 
 
 class AddDonation(View):
     form = AddDonationForm()
+
     def get(self, request):
         categories = Category.objects.all()
         institutions = Institution.objects.all()
@@ -42,29 +75,28 @@ class AddDonation(View):
         else:
             return render(request, "login.html")
 
-    # def post(self, request):
-    #     form = AddDonationForm(request.POST)
-    #     ctx = {"form": form}
-    #     if form.is_valid():
-    #         quantity = request.POST.get('bags')
-    #         address = request.POST.get('address')
-    #         phone_number = request.POST.get('phone')
-    #         city = request.POST.get('city')
-    #         zip_code = request.POST.get('postcode')
-    #         pick_up_date = request.POST.get('date')
-    #         pick_up_time = request.POST.get('time')
-    #         pick_up_comment = request.POST.get('more_info')
-    #         categories = request.POST.getlist('categories')
-    #         institution = request.POST.get('organization')
-    #         user = get_object_or_404(CustomUser, id=request.user.id)
-    #
-    #         new_donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number,
-    #                                                city=city, zip_code=zip_code, pick_up_date=pick_up_date,
-    #                                                pick_up_time=pick_up_time, pick_up_comment=pick_up_comment,
-    #                                                categories=categories, institution=institution, user=user)
-    #         new_donation.save()
-    #
-    #     return render(request, "form-confirmation.html", ctx)
+    def post(self, request):
+        form = AddDonationForm(request.POST)
+        if form.is_valid():
+            quantity = form.cleaned_data.get('bags')
+            address = form.cleaned_data.get('address')
+            phone_number = form.cleaned_data.get('phone')
+            city = form.cleaned_data.get('city')
+            zip_code = form.cleaned_data.get('postcode')
+            pick_up_date = form.cleaned_data.get('date')
+            pick_up_time = form.cleaned_data.get('time')
+            pick_up_comment = form.cleaned_data.get('more_info')
+            categories = form.cleaned_data.get('categories')
+            institution = form.cleaned_data.get('organization')
+
+            new_donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number,
+                                                   city=city, zip_code=zip_code, pick_up_date=pick_up_date,
+                                                   pick_up_time=pick_up_time, pick_up_comment=pick_up_comment,
+                                                   institution=institution, user=request.user)
+            new_donation.save()
+            new_donation.categories.add(categories)
+
+            return render(request, "form-confirmation.html")
 
 
 def signup_view(request):
@@ -88,7 +120,6 @@ def signup_view(request):
 
 
 def login_view(request):
-
     context = {}
 
     user = request.user
@@ -117,6 +148,7 @@ def login_view(request):
     context['login_form'] = form
     return render(request, "login.html", context)
 
+
 def logout_view(request):
     logout(request)
     return redirect('landing-page')
@@ -135,6 +167,18 @@ class UserProfile(View):
             return redirect('login')
 
 
-class DonationFormConfirmation(View):
-    def get(self, request):
-        return render(request, 'form-confirmation.html')
+class DonationFormConfirmation(TemplateView):
+    template_name = 'form-confirmation.html'
+
+class UpdateUserProfile(UpdateView):
+    model = CustomUser
+    form = UserProfileForm
+    fields = '__all__'
+    success_url = reverse_lazy('userprofile.html')
+
+
+
+
+
+
+

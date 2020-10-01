@@ -195,8 +195,9 @@ document.addEventListener("DOMContentLoaded", function() {
       // Next step
       this.$next.forEach(btn => {
         btn.addEventListener("click", e => {
-          e.preventDefault();
+
           if (this.currentStep === 1) {
+            e.preventDefault();
             let categories = document.getElementsByName("categories");
             var checkedCategories = [];
             for (let i = 0; i < categories.length; i++)
@@ -211,6 +212,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
           }
           if (this.currentStep === 2) {
+            e.preventDefault();
             let bags_number = document.getElementById("inputQuantity");
             if (bags_number.value.length == 0) {
             }
@@ -221,6 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
           }
 
           if (this.currentStep === 3) {
+            e.preventDefault();
             let categories = document.getElementsByName("categories");
             let checkedCategories = [];
             for (let i = 0; i < categories.length; i++) {
@@ -243,6 +246,7 @@ document.addEventListener("DOMContentLoaded", function() {
               }
             }
             let chx = document.getElementsByTagName('input');
+
             for (var i = 0; i < chx.length; i++) {
               if (chx[i].type == 'radio' && chx[i].checked) {
                 this.currentStep++;
@@ -252,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
           }
           if (this.currentStep === 4) {
+            e.preventDefault();
             let address = document.getElementById("inputAddress").value;
             let city = document.getElementById("inputCity").value;
             let zipCode = document.getElementById("inputZip_code").value;
@@ -269,10 +274,14 @@ document.addEventListener("DOMContentLoaded", function() {
                let bags_number = document.getElementById("inputQuantity").value;
                let summaryBagsNumber = document.getElementById("bags_number");
                summaryBagsNumber.textContent = bags_number;
-               //let organization = document.getElementsByName("organization").value;
-               //console.log(organization)
+               let organizations = document.getElementsByName("organization");
+               for (var i = 0; i < organizations.length; i++) {
+                  if (organizations[i].checked) {
+                    var org_title = organizations[i].parentElement.children[2].children[0].innerHTML
+                  }
+               }
                let summaryOrganization = document.getElementById("organization");
-               //summaryOrganization.textContent = organization;
+               summaryOrganization.textContent = org_title;
                let summaryAddress = document.getElementById("address");
                summaryAddress.textContent = address;
                let summaryCity = document.getElementById("city");
@@ -289,7 +298,9 @@ document.addEventListener("DOMContentLoaded", function() {
                summaryMoreInfo.textContent = moreInfo;
             }
           }
+          if (this.currentStep === 5 ) {
 
+          }
         });
       });
 
@@ -336,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: validation, send data to server
      */
     submit(e) {
-      e.preventDefault();
+      // e.preventDefault();
       this.currentStep++;
       this.updateForm();
     }
@@ -348,6 +359,21 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+/**
+ * User profile
+ */
 
+
+
+let donations = document.getElementsByClassName("donations-tr");
+for (let i = 0; i < donations.length; i++) {
+  function changeStatus() {
+        if (document.getElementById('is-taken').checked) {
+            donations[i].style.color="blue";
+        } else {
+
+        }
+    }
+}
 
 

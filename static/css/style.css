@@ -580,7 +580,7 @@ form .form-group--inline label input {
 }
 
 /* line 49, scss/modules/_forms.scss */
-form .form-group--checkbox {
+form .form-group--activebox {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   font-style: normal;
@@ -1851,3 +1851,12 @@ footer .bottom-line--icons a img {
   margin: 50px 0;
 }
 
+.pagination {
+  margin-top: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
