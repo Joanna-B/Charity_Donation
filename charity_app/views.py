@@ -22,7 +22,7 @@ class LandingPage(View):
         local_list = Institution.objects.filter(type=3)
         page = request.GET.get('page', 1)
 
-        paginator = Paginator(foundation_list, 2)
+        paginator = Paginator(foundation_list, 5)
         try:
             foundations = paginator.page(page)
         except PageNotAnInteger:
@@ -30,7 +30,7 @@ class LandingPage(View):
         except EmptyPage:
             foundations = paginator.page(paginator.num_pages)
 
-        paginator = Paginator(ngo_list, 2)
+        paginator = Paginator(ngo_list, 5)
         try:
             ngos = paginator.page(page)
         except PageNotAnInteger:
@@ -38,7 +38,7 @@ class LandingPage(View):
         except EmptyPage:
             ngos = paginator.page(paginator.num_pages)
 
-        paginator = Paginator(local_list, 2)
+        paginator = Paginator(local_list, 5)
         try:
             locals = paginator.page(page)
         except PageNotAnInteger:
@@ -88,11 +88,14 @@ class AddDonation(View):
             pick_up_comment = form.cleaned_data.get('more_info')
             categories = form.cleaned_data.get('categories')
             institution = form.cleaned_data.get('organization')
+            # organization = form.cleaned_data.get('organization')
+            # institution = Institution.objects.get(id=organization)
+            user = request.user
 
             new_donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number,
                                                    city=city, zip_code=zip_code, pick_up_date=pick_up_date,
                                                    pick_up_time=pick_up_time, pick_up_comment=pick_up_comment,
-                                                   institution=institution, user=request.user)
+                                                   institution=institution, user=user)
             new_donation.save()
             new_donation.categories.add(categories)
 

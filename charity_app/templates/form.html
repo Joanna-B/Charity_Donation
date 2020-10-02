@@ -56,7 +56,7 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form method="POST" action="{% url "add-donation" %}">
+        <form method="POST" action=" ">
           {% csrf_token %}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
@@ -141,7 +141,7 @@
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Miasto <input type="text" name="city"id="inputCity" required> </label>
+                  <label> Miasto <input type="text" name="city" id="inputCity" required> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
