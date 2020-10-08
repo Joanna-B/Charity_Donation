@@ -8,7 +8,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy
 
 
-
 class LandingPage(View):
     def get(self, request):
         donations = Donation.objects.all()
@@ -59,7 +58,6 @@ class LandingPage(View):
         return render(request, 'index.html', ctx)
 
 
-
 class AddDonation(View):
     form = AddDonationForm()
 
@@ -77,29 +75,30 @@ class AddDonation(View):
 
     def post(self, request):
         form = AddDonationForm(request.POST)
+        ctx = {"form": form}
         if form.is_valid():
-            quantity = form.cleaned_data.get('bags')
+            quantity = form.cleaned_data.get('quantity')
             address = form.cleaned_data.get('address')
-            phone_number = form.cleaned_data.get('phone')
+            phone_number = form.cleaned_data.get('phone_number')
             city = form.cleaned_data.get('city')
-            zip_code = form.cleaned_data.get('postcode')
-            pick_up_date = form.cleaned_data.get('date')
-            pick_up_time = form.cleaned_data.get('time')
-            pick_up_comment = form.cleaned_data.get('more_info')
+            zip_code = form.cleaned_data.get('zip_code')
+            pick_up_date = form.cleaned_data.get('pick_up_date')
+            pick_up_time = form.cleaned_data.get('pick_up_time')
+            pick_up_comment = form.cleaned_data.get('pick_up_comment')
             categories = form.cleaned_data.get('categories')
-            institution = form.cleaned_data.get('organization')
-            # organization = form.cleaned_data.get('organization')
-            # institution = Institution.objects.get(id=organization)
+            institution = form.cleaned_data.get('institution')
             user = request.user
-
             new_donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number,
                                                    city=city, zip_code=zip_code, pick_up_date=pick_up_date,
                                                    pick_up_time=pick_up_time, pick_up_comment=pick_up_comment,
                                                    institution=institution, user=user)
             new_donation.save()
-            new_donation.categories.add(categories)
+            for i in range(len(categories)):
+                new_categories = Category.objects.get(name=categories[i])
+                new_donation.categories.add(new_categories)
 
-            return render(request, "form-confirmation.html")
+            return render(request, "form-confirmation.html", ctx)
+        return render(request, "form.html", ctx)
 
 
 def signup_view(request):

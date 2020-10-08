@@ -27,5 +27,5 @@ urlpatterns = [
     path('logout/', logout_view, name="logout"),
     path('profile/', UserProfile.as_view(), name="user-profile"),
     path('update_profile/', UpdateUserProfile.as_view(), name="update-user-profile"),
-    path('form_confirmation/', DonationFormConfirmation.as_view(), name="confirmation"),
+    path('confirmation/', DonationFormConfirmation.as_view(), name="confirmation"),
 ]

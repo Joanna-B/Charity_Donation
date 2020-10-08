@@ -27,6 +27,8 @@ class CustomUserAuthenticationForm(forms.ModelForm):
 
 
 class AddDonationForm(forms.ModelForm):
+    pick_up_comment = forms.CharField(required=False)
+
     class Meta:
         model = Donation
         exclude = ('user', 'is_taken')

@@ -1,5 +1,4 @@
 from django.db import models
-from phone_field import PhoneField
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
@@ -105,9 +104,9 @@ class Donation(models.Model):
     zip_code = models.CharField(max_length=6)
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
-    pick_up_comment = models.CharField(max_length=256)
+    pick_up_comment = models.CharField(max_length=256, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
-    is_taken = models.BooleanField(default=False)
+    #is_taken = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Dar'

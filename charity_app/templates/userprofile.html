@@ -56,9 +56,12 @@
                 <th scope="col" class="col-3"  style="padding: 10px">Kategorie</th>
                 <th scope="col" class="col-1"  style="padding: 10px">Liczba worków</th>
                 <th scope="col" class="col-2"  style="padding: 10px">Data odbioru</th>
+                <!--
                 <th scope="col" class="col-2"  style="padding: 10px">Czy przekazane?</th>
+                -->
             </tr>
             </thead>
+
             {% for donation in donations %}
                 <tr class="d-flex donations-tr">
                     <td class="col-3"  style="padding: 10px">{{ donation.institution }}</td>
@@ -73,13 +76,16 @@
                     <td class="col-2"  style="padding: 10px">
                         {{ donation.pick_up_date }}
                     </td>
+                    <!--
                     <form method="post">
                     <td class="col-2"  style="padding: 10px">
                         <input type="checkbox" id="is-taken" name="is-taken" >
                     </td>
                     </form>
+                      -->
                 </tr>
             {% endfor %}
+
         </table>
     </section>
         {% else %}

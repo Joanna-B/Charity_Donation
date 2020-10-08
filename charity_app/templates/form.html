@@ -56,7 +56,7 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form method="POST" action=" ">
+        <form  action=" " method="POST">
           {% csrf_token %}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
@@ -91,7 +91,7 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <input type="number" name="bags" min="1" id="inputQuantity">
+                <input type="number" name="quantity" min="1" id="quantity"/>
               </label>
             </div>
 
@@ -110,7 +110,7 @@
             {% for institution in institutions %}
             <div class="form-group form-group--checkbox institutions-div">
               <label>
-                <input type="radio" name="organization" value="{{institution.id}}" data-categories="{{institution.category_ids_string}}" />
+                <input type="radio" name="institution" value="{{institution.id}}" data-categories="{{institution.category_ids_string}}" />
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title"> {{institution.name}} </div>
@@ -137,22 +137,22 @@
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Ulica <input type="text" name="address" id="inputAddress" required> </label>
+                  <label> Ulica <input type="text" name="address" id="address" /> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Miasto <input type="text" name="city" id="inputCity" required> </label>
+                  <label> Miasto <input type="text" name="city" id="city" /> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Kod pocztowy <input type="text" name="postcode" id="inputZip_code" required>
+                    Kod pocztowy <input type="text" name="zip_code" id="zip_code" />
                   </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Numer telefonu <input type="phone" name="phone" id="inputPhone_number" required>
+                    Numer telefonu <input type="phone" name="phone_number" id="phone_number" />
                   </label>
                 </div>
               </div>
@@ -160,17 +160,17 @@
               <div class="form-section--column">
                 <h4>Termin odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Data <input type="date" name="date" id="inputPick_up_date" required> </label>
+                  <label> Data <input type="date" name="pick_up_date" id="pick_up_date" /> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Godzina <input type="time" name="time" id="inputPick_up_time" required> </label>
+                  <label> Godzina <input type="time" name="pick_up_time" id="pick_up_time" /> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
                     Uwagi dla kuriera
-                    <textarea name="more_info" rows="5" id="inputMore_info" required></textarea>
+                    <textarea name="pick_up_comment" rows="5" id="pick_up_comment"></textarea>
                   </label>
                 </div>
               </div>
@@ -192,14 +192,14 @@
                   <li>
                     <span class="icon icon-bag"></span>
                     <span class="summary--text"
-                      ><a id="bags_number"></a> worki</span
+                      ><a id="summaryBags"></a> worki</span
                     >
                   </li>
 
                   <li>
                     <span class="icon icon-hand"></span>
                     <span class="summary--text"
-                      >Dla organizacji <a id="organization"></a></span
+                      >Dla organizacji <a id="summaryOrganization"></a></span
                     >
                   </li>
                 </ul>
@@ -209,19 +209,19 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li id="address"> </li>
-                    <li id="city"> </li>
-                    <li id="zip_code"> </li>
-                    <li id="phone_number"> </li>
+                    <li id="summaryAddress"> </li>
+                    <li id="summaryCity"> </li>
+                    <li id="summaryZip_Code"> </li>
+                    <li id="summaryPhone_Number"> </li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li id="pick_up_date"> </li>
-                    <li id="pick_up_time"> </li>
-                    <li id="more_info"> </li>
+                    <li id="summaryPick_Up_Date"> </li>
+                    <li id="summaryPick_Up_Time"> </li>
+                    <li id="summaryMore_Info"> </li>
                   </ul>
                 </div>
               </div>

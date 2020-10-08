@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function() {
           }
           if (this.currentStep === 2) {
             e.preventDefault();
-            let bags_number = document.getElementById("inputQuantity");
+            let bags_number = document.getElementById("quantity");
             if (bags_number.value.length == 0) {
             }
             else {
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 checkedCategories.push(categories[i].value)
               }
             }
-            let institutions = document.getElementsByName("organization");
+            let institutions = document.getElementsByName("institution");
 
             for (let i = 0; i < institutions.length; i++) {
               let institutionsCategories = institutions[i].dataset.categories
@@ -257,50 +257,48 @@ document.addEventListener("DOMContentLoaded", function() {
           }
           if (this.currentStep === 4) {
             e.preventDefault();
-            let address = document.getElementById("inputAddress").value;
-            let city = document.getElementById("inputCity").value;
-            let zipCode = document.getElementById("inputZip_code").value;
-            let phoneNumber = document.getElementById("inputPhone_number").value;
-            let pickUpDate = document.getElementById("inputPick_up_date").value;
-            let pickUpTime = document.getElementById("inputPick_up_time").value;
-            let moreInfo = document.getElementById("inputMore_info").value;
+            let address = document.getElementById("address").value;
+            let city = document.getElementById("city").value;
+            let zipCode = document.getElementById("zip_code").value;
+            let phoneNumber = document.getElementById("phone_number").value;
+            let pickUpDate = document.getElementById("pick_up_date").value;
+            let pickUpTime = document.getElementById("pick_up_time").value;
+            let moreInfo = document.getElementById("pick_up_comment").value;
             if ((address.length == 0) || (city.length == 0) || (zipCode.length == 0) || (phoneNumber.length == 0) ||
-                (pickUpDate.length == 0) || (pickUpTime.length == 0) || (moreInfo.length == 0) ) {
+                (pickUpDate.length == 0) || (pickUpTime.length == 0)) {
 
             }
             else {
                this.currentStep++;
                this.updateForm();
-               let bags_number = document.getElementById("inputQuantity").value;
-               let summaryBagsNumber = document.getElementById("bags_number");
+               let bags_number = document.getElementById("quantity").value;
+               let summaryBagsNumber = document.getElementById("summaryBags");
                summaryBagsNumber.textContent = bags_number;
-               let organizations = document.getElementsByName("organization");
+               let organizations = document.getElementsByName("institution");
                for (var i = 0; i < organizations.length; i++) {
                   if (organizations[i].checked) {
                     var org_title = organizations[i].parentElement.children[2].children[0].innerHTML
                   }
                }
-               let summaryOrganization = document.getElementById("organization");
+               let summaryOrganization = document.getElementById("summaryOrganization");
                summaryOrganization.textContent = org_title;
-               let summaryAddress = document.getElementById("address");
+               let summaryAddress = document.getElementById("summaryAddress");
                summaryAddress.textContent = address;
-               let summaryCity = document.getElementById("city");
+               let summaryCity = document.getElementById("summaryCity");
                summaryCity.textContent = city;
-               let summaryZipCode = document.getElementById("zip_code");
+               let summaryZipCode = document.getElementById("summaryZip_Code");
                summaryZipCode.textContent = zipCode;
-               let summaryPhoneNumber = document.getElementById("phone_number");
+               let summaryPhoneNumber = document.getElementById("summaryPhone_Number");
                summaryPhoneNumber.textContent = phoneNumber;
-               let summaryPickUpDate = document.getElementById("pick_up_date");
+               let summaryPickUpDate = document.getElementById("summaryPick_Up_Date");
                summaryPickUpDate.textContent = pickUpDate;
-               let summaryPickUpTime = document.getElementById("pick_up_time");
+               let summaryPickUpTime = document.getElementById("summaryPick_Up_Time");
                summaryPickUpTime.textContent = pickUpTime;
-               let summaryMoreInfo = document.getElementById("more_info");
+               let summaryMoreInfo = document.getElementById("summaryMore_Info");
                summaryMoreInfo.textContent = moreInfo;
             }
           }
-          if (this.currentStep === 5 ) {
 
-          }
         });
       });
 
